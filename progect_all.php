@@ -65,14 +65,14 @@
                 </a>
 
                 <nav id="navmenu" class="navmenu">
-          <ul>
-            <li><a href="progect_all.php">Проекты<br></a></li>
-            <li><a href="#about">Команды</a></li>
-            <li><a href="vocancy.php">Вакансии</a></li>
-            </li>
-          </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
+                    <ul>
+                        <li><a href="progect_all.php">Проекты<br></a></li>
+                        <li><a href="#about">Команды</a></li>
+                        <li><a href="vocancy.php">Вакансии</a></li>
+                        </li>
+                    </ul>
+                    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+                </nav>
 
             </div>
 
@@ -105,15 +105,25 @@
             </div>
             <script>
                 function filter(a) {
-                    if (a == 0){
-                        if(document.getElementById('projects_ASC').classList.contains('d-none')){
+                    if (a == 0) {
+                        if (document.getElementById('projects_ASC').classList.contains('d-none')) {
                             document.getElementById('projects_ASC').classList.remove('d-none');
                             document.getElementById('projects_DESC').classList.add('d-none');
+                            document.getElementById('projects_id').classList.add('d-none');
                         }
-                    }else{
-                        if(document.getElementById('projects_DESC').classList.contains('d-none')){
+                    }
+                    if (a == 1) {
+                        if (document.getElementById('projects_DESC').classList.contains('d-none')) {
                             document.getElementById('projects_DESC').classList.remove('d-none');
                             document.getElementById('projects_ASC').classList.add('d-none');
+                            document.getElementById('projects_id').classList.add('d-none');
+                        }
+                    }
+                    if (a == 2) {
+                        if (document.getElementById('projects_id').classList.contains('d-none')) {
+                            document.getElementById('projects_id').classList.remove('d-none');
+                            document.getElementById('projects_ASC').classList.add('d-none');
+                            document.getElementById('projects_DESC').classList.add('d-none');
                         }
                     }
                 }
@@ -129,7 +139,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" onclick="filter(0)" href="#">Сначала новые</a></li>
                             <li><a class="dropdown-item" onclick="filter(1)" href="#">Сначала старые</a></li>
-                            <li><a class="dropdown-item" href="#">Релевантные</a></li>
+                            <li><a class="dropdown-item" onclick="filter(2)" href="#">Релевантные</a></li>
                         </ul>
                     </div>
                 </div>
@@ -146,7 +156,7 @@
             <div class="container" id="projects_ASC" style="margin-top: 2rem;">
 
                 <?php
-                $query_ASC = 'SELECT * FROM public.main ORDER BY data_begin ASC;';
+                $query_ASC = 'SELECT * FROM public.info_project ORDER BY start ASC;';
                 $result_ASC = pg_query($db, $query_ASC) or die('Ошибка запроса: ' . pg_last_error($db));
 
                 while ($line = pg_fetch_array($result_ASC)) {
@@ -171,7 +181,7 @@
                                     </div>
                                     <div class="col d-flex justify-content-left"
                                         style="font-family: 'Helvetica', arial; font-weight: lighter; font-size: 24px; color: #202020; line-height: 1.2em; padding-left: 170px; text-align: left;">
-                                        <?= $line['descr'] ?></div>
+                                        <?= $line['appointment'] ?></div>
 
                                 </div>
 
@@ -215,7 +225,7 @@
             <div class="container d-none" id="projects_DESC" style="margin-top: 2rem;">
 
                 <?php
-                $query_DESC = 'SELECT * FROM public.main ORDER BY data_begin DESC;';
+                $query_DESC = 'SELECT * FROM public.info_project ORDER BY start DESC;';
                 $result_DESC = pg_query($db, $query_DESC) or die('Ошибка запроса: ' . pg_last_error($db));
 
                 while ($line = pg_fetch_array($result_DESC)) {
@@ -240,7 +250,76 @@
                                     </div>
                                     <div class="col d-flex justify-content-left"
                                         style="font-family: 'Helvetica', arial; font-weight: lighter; font-size: 24px; color: #202020; line-height: 1.2em; padding-left: 170px; text-align: left;">
-                                        <?= $line['descr'] ?></div>
+                                        <?= $line['appointment'] ?></div>
+
+                                </div>
+
+                                <div class="d-flex flex-row justify-content-between align-items: end;" style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 23%; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;">
+                                    <div class="d-inline-flex">
+                                        <div class="d-inline-flex">
+                                            <div class="d-inline-flex">1444
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#EA5657" class="bi bi-heart-fill"
+                                                    viewBox="0 0 32 32" style="padding-top: 1rem;">
+                                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="d-inline-flex">
+                                            <div class="d-inline-flex">213
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                                    class="bi bi-chat-left-text" viewBox="0 0 20 20">
+                                                    <path
+                                                        d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
+                                                    <path
+                                                        d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-inline-flex" style="color: #202020; font-family: 'Vasek', arial; font-size: 36px;">
+                                        <div class="d-inline-flex">
+                                            <?= $line['tags'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input hidden name="id" id="id" type="number" value="<?= $cur_idx ?>">
+                            </div>
+                        </button>
+                    </form>
+                <?php
+                }
+                ?>
+            </div>
+
+            <div class="container d-none" id="projects_id" style="margin-top: 2rem;">
+
+                <?php
+                $query_id = 'SELECT * FROM public.info_project ORDER BY id;';
+                $result_id = pg_query($db, $query_id) or die('Ошибка запроса: ' . pg_last_error($db));
+
+                while ($line = pg_fetch_array($result_id)) {
+                    $cur_idx = $line['id'];
+                ?>
+                    <form action="project_view.php" method="post">
+                        <button type="submit" style="border: none; background-color: #F6F6F6;">
+                            <div style="margin-bottom: 3rem;">
+                                <div class="row">
+                                    <div class="col-4 d-flex justify-content-left"
+                                        style="border-top: 0; border-right: 2px solid #202020; border-left: 0; border-bottom: 0; max-width: 10%; padding-bottom: 2rem;">
+                                        <h1><?= $line['id'] ?></h1>
+                                    </div>
+                                    <div class="col-8 d-flex justify-content-left"
+                                        style="font-family: 'Lack', arial; font-size: 48px; color: #EA5657; line-height: .5em; padding-left: 170px;">
+                                        <?= $line['name'] ?></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4 d-flex justify-content-left"
+                                        style="border-top: 0; border-right: 2px solid #202020; border-left: 0; border-bottom: 0; max-width: 10%; padding-bottom: 2rem;">
+                                        <h1 style="color: #F6F6F6;">01</h1>
+                                    </div>
+                                    <div class="col d-flex justify-content-left"
+                                        style="font-family: 'Helvetica', arial; font-weight: lighter; font-size: 24px; color: #202020; line-height: 1.2em; padding-left: 170px; text-align: left;">
+                                        <?= $line['appointment'] ?></div>
 
                                 </div>
 

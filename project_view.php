@@ -158,8 +158,8 @@
 
 
 
-    $query = 'SELECT id, name, status, data_begin, duration, idea_goal, descr, stack, tags, same_to, artefacts, achive
-        FROM public.main WHERE id = ' . $_POST['id'] . ';';
+    $query = 'SELECT id, name, status, start, duration, goal, appointment, stack, tags, "references", artefacts, achievements, roles_participants, vacancys
+    FROM public.info_project WHERE id = ' . $_POST['id'] . ';';
 
     $result_query = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
     $result = pg_fetch_array($result_query);
@@ -191,7 +191,7 @@
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">Дата выхода:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['data_begin'] ?></div>
+            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['start'] ?></div>
           </div>
           <div class="d-inline-flex">
             <div class="d-inline-flex">https://github.com/</div>
@@ -254,7 +254,7 @@
         <div class="d-flex flex-row justify-content-between"
           style="text-align: left; background-color: #F6F6F6; color: #202020; padding: 0 0 3rem 0; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $result['descr'] ?>
+            <div class="d-inline-flex"><?= $result['appointment'] ?>
             </div>
           </div>
         </div>
@@ -365,7 +365,7 @@
         style="background-color: #202020; border-radius: 20px 20px 0 0;">
         <p
           style="color: #F6F6F6; font-family: 'Helvetica', arial; font-size: 64px; padding: 5% 0 5% 5%; font-weight: 100; width: 100%; line-height: 1.5rem;">
-          Артефакт
+          Артефакты
         </p>
       </div>
 

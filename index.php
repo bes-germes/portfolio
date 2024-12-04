@@ -42,7 +42,7 @@
 
   <?php
 
-  require_once('config/settings.php');
+  require_once('../portfolio/config/settings.php');
   $db = new dbFunc();
   $db = $db->dbConn();
 
@@ -106,8 +106,8 @@
         <div class="container" style="margin-top: 2rem;">
 
           <?php
-          $query = 'SELECT id, name, status, data_begin, duration, idea_goal, descr, stack, tags, same_to, artefacts, achive
-        FROM public.main;';
+          $query = 'SELECT id, name, status, start, duration, goal, appointment, stack, tags, "references", artefacts, achievements, roles_participants, vacancys
+          FROM public.info_project;';
           $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
 
           while ($line = pg_fetch_array($result)) {
@@ -132,7 +132,7 @@
                     </div>
                     <div class="col d-flex justify-content-left"
                       style="font-family: 'Helvetica', arial; font-weight: lighter; font-size: 24px; color: #202020; line-height: 1.2em; padding-left: 170px; text-align: left;">
-                      <?= $line['descr'] ?></div>
+                      <?= $line['appointment'] ?></div>
 
                   </div>
 
