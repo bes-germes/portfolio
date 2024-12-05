@@ -42,7 +42,7 @@
 
   <?php
 
-  require_once('../portfolio/config/settings.php');
+  require_once('../potfolio/config/settings.php');
   $db = new dbFunc();
   $db = $db->dbConn();
 
@@ -67,8 +67,13 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="progect_all.php">Проекты<br></a></li>
-            <li><a href="#about">Команды</a></li>
+            <li><a href="find_team.php">Команды</a></li>
             <li><a href="vocancy.php">Вакансии</a></li>
+            <li><a href="profile.php">
+                <div class="text-center">
+                  <img src="assets\img\MAGNWwAFX6E.jpg" class="rounded" alt="..." style="width: 50px; height: 50px;">
+                </div>
+              </a>
             </li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -106,63 +111,74 @@
         <div class="container" style="margin-top: 2rem;">
 
           <?php
-          $query = 'SELECT id, name, status, start, duration, goal, appointment, stack, tags, "references", artefacts, achievements, roles_participants, vacancys
-          FROM public.info_project;';
+          $query = 'SELECT * FROM public.info_project ORDER BY id LIMIT 10;';
           $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
 
           while ($line = pg_fetch_array($result)) {
-            $cur_idx = $line['id'];
+            $cur_idx = $line['id'] + 1;
           ?>
             <form action="project_view.php" method="post">
               <button type="submit" style="border: none; background-color: #F6F6F6;">
-                <div style="margin-bottom: 3rem;">
-                  <div class="row">
-                    <div class="col-4 d-flex justify-content-left"
-                      style="border-top: 0; border-right: 2px solid #202020; border-left: 0; border-bottom: 0; max-width: 10%; padding-bottom: 2rem;">
-                      <h1><?= $line['id'] ?></h1>
-                    </div>
-                    <div class="col-8 d-flex justify-content-left"
-                      style="font-family: 'Lack', arial; font-size: 48px; color: #EA5657; line-height: .5em; padding-left: 170px;">
-                      <?= $line['name'] ?></div>
+                <div class="d-flex flex-row" style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 0; font-family: 'Helvetica', arial; font-size: 36px; font-weight: lighter;">
+                  <div class="d-flex flex-column">
+                    <h1 class="d-inline-flex" style="text-align: left;">
+                      <?php
+                      $idx_length = strlen((string)$cur_idx);
+                      if ($idx_length > 1) {
+                        print_r($cur_idx--);
+                      } else {
+                        print_r('0' . (string)$cur_idx--);
+                      } ?>
                   </div>
-                  <div class="row">
-                    <div class="col-4 d-flex justify-content-left"
-                      style="border-top: 0; border-right: 2px solid #202020; border-left: 0; border-bottom: 0; max-width: 10%; padding-bottom: 2rem;">
-                      <h1 style="color: #F6F6F6;">01</h1>
-                    </div>
-                    <div class="col d-flex justify-content-left"
-                      style="font-family: 'Helvetica', arial; font-weight: lighter; font-size: 24px; color: #202020; line-height: 1.2em; padding-left: 170px; text-align: left;">
-                      <?= $line['appointment'] ?></div>
+                  </h1>
+                  <div style="border-color: #202020; border-left: 2px solid; margin-left: 2rem;">
+                    <div class="d-flex flex-column" style="margin-left: 3%;">
+                      <div class="d-inline-flex align-items-center" style="padding-left: 3rem; color: #EA5657; margin-bottom: 1rem;">
+                        <div class="d-inline-flex" style="color: #EA5657; font-family: 'Lack', arial; font-size: 48px; font-weight: lighter; text-align: left;">
+                          <?= $line['name'] ?></div>
+                      </div>
+                      <div class="d-inline-flex" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                        <?= $line['appointment'] ?>
+                      </div>
+                      <div class="d-inline-flex justify-content-between" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                        <div class="d-inline-flex p-2">
 
-                  </div>
-
-                  <div class="d-flex flex-row justify-content-between align-items: end;" style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 23%; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;">
-                    <div class="d-inline-flex">
-                      <div class="d-inline-flex">
-                        <div class="d-inline-flex">1444<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#EA5657" class="bi bi-heart-fill"
-                            viewBox="0 0 32 32" style="padding-top: 1rem;">
-                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
-                          </svg>
+                          <div class="d-inline-flex p-2">
+                            <div class="d-inline-flex p-2" style="align-items: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" color="#EA5657" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                              </svg>
+                            </div>
+                            <div class="d-inline-flex p-2">
+                              12
+                            </div>
+                          </div>
+                          <div class="d-inline-flex p-2" style="align-items: center;">
+                            <div class=" d-inline-flex p-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                              </svg>
+                            </div>
+                            <div class="d-inline-flex p-2">
+                              1234
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-inline-flex p-2" style="align-items: center; color: #202020; font-family: 'Vasek', arial; font-size: 36px;">
+                          <?= $line['tags'] ?>
                         </div>
                       </div>
-                      <div class="d-inline-flex">
-                        <div class="d-inline-flex">213<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-chat-left-text" viewBox="0 0 20 20">
-                            <path
-                              d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z" />
-                            <path
-                              d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="d-inline-flex" style="color: #202020; font-family: 'Vasek', arial; font-size: 36px;">
-                      <div class="d-inline-flex">
-                        <?= $line['tags'] ?>
-                      </div>
+                      <!-- <div class="d-inline-flex" style="padding-left: 3rem; min-width: 50%;">
+                        <img src="<?= $line['preview'] ?>" class="img-fluid" alt="...">
+                      </div> -->
                     </div>
                   </div>
-                  <input hidden name="id" id="id" type="number" value="<?= $cur_idx ?>">
+                </div>
+
+                <input hidden name="id" id="id" type="number" value="<?= $cur_idx ?>">
               </button>
             </form>
           <?php
@@ -221,14 +237,21 @@
             <div class="d-inline-flex">PHP</div>
             <div class="d-inline-flex" style="padding-left: 1rem;">JS</div>
             <div class="d-inline-flex" style="padding-left: 1rem;">CSS</div>
-            <div class="d-inline-flex"
-              style="color: #F6F6F6; font-family: 'Vasek', arial; font-size: 48px; margin-left: 2rem;"> <svg
-                xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right"
-                viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                  d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8">
-                </path>
-              </svg></div>
+            <form action="progect_all.php" method="post">
+              <button type="submit" style="border: none; background-color: #202020;">
+                <div class="d-inline-flex"
+                  style="color: #F6F6F6; font-family: 'Vasek', arial; font-size: 48px; margin-left: 2rem;"> <svg
+                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-right"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                      d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8">
+                    </path>
+                  </svg></div>
+                <input hidden name="tags[0]" id="tags" type="hidden" value="2">
+                <input hidden name="tags[1]" id="tags" type="hidden" value="5">
+                <input hidden name="tags[2]" id="tags" type="hidden" value="4">
+              </button>
+            </form>
           </div>
         </div>
       </div>
@@ -535,126 +558,58 @@
 
       <div class="container section-title" data-aos="fade-up">
         <div class="row">
-          <div class="col-6" style="margin: 0; padding: 0;">
-            <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-end mb-3">
-                  <div class="bd-highlight"
-                    style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                    Программист C++</div>
-                  <button type="button" class="btn btn-outline-secondary"
-                    style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
+
+          <?php
+          $query = 'SELECT * FROM public.info_vacancys;';
+          $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
+
+          while ($line = pg_fetch_array($result)) {
+            $cur_idx = $line['id'] + 1;
+          ?>
+
+            <div class="col-6" style="margin: 0; padding: 0;">
+              <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-end mb-3">
+                    <div class="bd-highlight"
+                      style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
+                      <?= $line['rule'] ?></div>
+                    <button type="button" class="btn btn-outline-secondary"
+                      style="color:#202020; border-radius: 20px; border-color: #202020;" onclick="alert('Заявка отправлена')">Откликнуться</button>
+                  </div>
                 </div>
+
+                <h6 class="card-subtitle d-flex justify-content-begin"
+                  style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                  Автоматизация проведения лабораторных работ по программированию</h6>
+                <h6 class="card-subtitle d-flex justify-content-begin"
+                  style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                  Обязанности:</h6>
+                <ul
+                  style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                  <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
+                  </li>
+                  <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
+                    преподавателей.
+                  </li>
+                  <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
+                  <li>Интеграция системы с внешними сервисами.
+                  </li>
+                  <li>Написание документации и проведение тестирования разработанных функций.
+
+                  </li>
+                  <li>Участие в код-ревью и обмене знаниями с командой.
+
+                  </li>
+                  <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
+                  </li>
+                </ul>
               </div>
-
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Автоматизация проведения лабораторных работ по программированию</h6>
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Обязанности:</h6>
-              <ul
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                </li>
-                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                  преподавателей.
-                </li>
-                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                <li>Интеграция системы с внешними сервисами.
-                </li>
-                <li>Написание документации и проведение тестирования разработанных функций.
-
-                </li>
-                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                </li>
-                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                </li>
-              </ul>
             </div>
-          </div>
 
-          <div class="col-6" style="margin: 0; padding: 0;">
-            <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-end mb-3">
-                  <div class="bd-highlight"
-                    style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                    Программист C++</div>
-                  <button type="button" class="btn btn-outline-secondary"
-                    style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
-                </div>
-              </div>
-
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Автоматизация проведения лабораторных работ по программированию</h6>
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Обязанности:</h6>
-              <ul
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                </li>
-                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                  преподавателей.
-                </li>
-                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                <li>Интеграция системы с внешними сервисами.
-                </li>
-                <li>Написание документации и проведение тестирования разработанных функций.
-
-                </li>
-                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                </li>
-                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="col-6" style="margin: 0; padding: 0;">
-            <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-end mb-3">
-                  <div class="bd-highlight"
-                    style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                    Программист C++</div>
-                  <button type="button" class="btn btn-outline-secondary"
-                    style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
-                </div>
-              </div>
-
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Автоматизация проведения лабораторных работ по программированию</h6>
-              <h6 class="card-subtitle d-flex justify-content-begin"
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                Обязанности:</h6>
-              <ul
-                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                </li>
-                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                  преподавателей.
-                </li>
-                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                <li>Интеграция системы с внешними сервисами.
-                </li>
-                <li>Написание документации и проведение тестирования разработанных функций.
-
-                </li>
-                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                </li>
-                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                </li>
-              </ul>
-            </div>
-          </div>
-
+          <?php
+          }
+          ?>
 
         </div>
 

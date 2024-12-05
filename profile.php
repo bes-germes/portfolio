@@ -162,34 +162,16 @@
     $db = $db->dbConn();
 
 
+    if (isset($_POST['user_id'])) {
+      $user_id = $_POST['user_id'];
+    } else {
+      $user_id = 0;
+    }
 
-    $query = 'SELECT * FROM public.info_project WHERE id = ' . $_POST['id'] . ';';
+    $query = 'SELECT * FROM public.info_user WHERE id = ' . $user_id . ';';
 
     $result_query = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
     $result = pg_fetch_array($result_query);
-
-    $vowels = array("{", "}");
-    $onlyconsonants = str_replace($vowels, " ", $result['stack']);
-
-    $query_stack = "SELECT name FROM public.info_tags WHERE id = any(ARRAY[" . $onlyconsonants  . "]);";
-    $result_query = pg_query($db, $query_stack) or die('Ошибка запроса: ' . pg_last_error($db));
-
-    $stack = "";
-    while ($row = pg_fetch_array($result_query)) {
-
-      $stack .= $row["name"] . " ";
-    }
-
-
-
-    $query_link = "SELECT url FROM public.info_artefacts WHERE project_id = '" . $_POST['id'] . "';";
-    $result_link = pg_query($db, $query_link) or die('Ошибка запроса: ' . pg_last_error($db));
-
-    $link = array();
-    while ($row = pg_fetch_array($result_link)) {
-
-      array_push($link, $row['url']);
-    }
 
     ?>
     <!-- About Section -->
@@ -197,8 +179,15 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up" style="margin-top: 2rem;">
-        <p style="font-family: 'Vasek', arial; font-size: 96px; color: #EA5657; margin: 0; line-height: .8em;">
-          <?= $result['name'] ?></p>
+        <div class="d-inline-flex p-2" style="align-items: center;">
+          <div class="text-center" style="margin-right: 2rem;">
+            <img src="assets\img\MAGNWwAFX6E.jpg" alt="..." style="width: 150px; height: 150px; border-radius: 50%;">
+          </div>
+          <p style="font-family: 'Vasek', arial; font-size: 96px; color: #EA5657; margin: 0; line-height: .8em;">
+            <?= $result['firstname'] ?> <?= $result['lastname'] ?>
+          </p>
+        </div>
+      </div>
 
       </div>
       <div class="container section-title" data-aos="fade-up" style="margin-top: 2rem;">
@@ -217,58 +206,66 @@
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex">Дата выхода:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['start'] ?></div>
+            <div class="d-inline-flex">Группа:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">КММО-01-23</div>
           </div>
           <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[0] ?></div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Статус:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['status'] ?></div>
-          </div>
-          <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[1] ?></div>
+            <div class="d-inline-flex">https://github.com/</div>
           </div>
         </div>
 
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex">Стек:</div>
+            <div class="d-inline-flex">Год приёма:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">2023</div>
+          </div>
+          <div class="d-inline-flex">
+            <div class="d-inline-flex">https://github.com/</div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between"
+          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+          <div class="d-inline-flex">
+            <div class="d-inline-flex">Курс:</div>
             <div class="d-inline-flex" style="padding-left: 1rem;">
-              <?= $stack ?></div>
+              2 курс</div>
           </div>
           <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[2] ?></div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Оценка сообщества:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
+            <div class="d-inline-flex">https://github.com/</div>
           </div>
         </div>
 
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex">Оценка знатаков:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
+            <div class="d-inline-flex">Шифр:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">Хз не помню</div>
           </div>
         </div>
 
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex">Популярные теги проекта:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['tags'] ?></div>
+            <div class="d-inline-flex">Институт:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">ИИИ</div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between"
+          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+          <div class="d-inline-flex">
+            <div class="d-inline-flex">Специальность:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">Прикладная математика и информатика</div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between"
+          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+          <div class="d-inline-flex">
+            <div class="d-inline-flex">Образовательная программа:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">Бакалавриат</div>
           </div>
         </div>
 
@@ -276,13 +273,18 @@
           style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">//</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">О проекте</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">О себе</div>
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between"
           style="text-align: left; background-color: #F6F6F6; color: #202020; padding: 0 0 3rem 0; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $result['appointment'] ?>
+            <div class="d-inline-flex">
+              Я люблю работать над проектами, которые позволяют мне применять теорию на практике. В своей учебе я сосредоточен на разработке веб-приложений и изучении алгоритмов. Участвовал в нескольких хакатонах, где смог не только улучшить свои технические навыки, но и научиться работать в команде.
+
+              Кроме программирования, меня интересуют новые технологии, такие как искусственный интеллект и машинное обучение. Я всегда открыт для новых идей и возможностей сотрудничества, поэтому не стесняйтесь обращаться ко мне!
+
+              В свободное время я люблю читать книги по саморазвитию и смотреть научно-популярные фильмы. Я верю, что постоянное обучение и обмен опытом — ключ к успеху в этой быстро меняющейся области.
             </div>
           </div>
         </div>
@@ -291,92 +293,86 @@
           style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">//</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">Авторы</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;">Проекты</div>
           </div>
         </div>
 
-        <div class="d-flex"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal; width: 50%;">
-          <div id="slider2">
-            <div class="thumbelina-but horiz left">&#706;</div>
-            <ul>
-              <li><img src="assets/img/image.png"></li>
-              <li><img src="assets/img/image2.jpg"></li>
-              <li><img src="assets/img/image3.jpg"></li>
-              <li><img src="assets/img/image4.jpg"></li>
-              <li><img src="assets/img/image5.jpg"></li>
-              <li><img src="assets/img/image6.jpg"></li>
-              <li><img src="assets/img/image7.jpg"></li>
-              <li><img src="assets/img/image8.jpg"></li>
-            </ul>
-            <div class="thumbelina-but horiz right">&#707;</div>
-          </div>
-        </div>
+        <div class="container" style="margin-top: 3rem;">
 
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">//</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">Скришоты</div>
-          </div>
-        </div>
+          <?php
+          $query = 'SELECT * FROM public.info_project WHERE id = 1;';
+          $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
 
-        <div class="d-flex"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal; width: 50%;">
-          <div id="slider23">
-            <div class="thumbelina-but horiz left">&#706;</div>
-            <ul>
-              <li><img src="assets/img/image.png"></li>
-              <li><img src="assets/img/image2.jpg"></li>
-              <li><img src="assets/img/image3.jpg"></li>
-              <li><img src="assets/img/image4.jpg"></li>
-              <li><img src="assets/img/image5.jpg"></li>
-              <li><img src="assets/img/image6.jpg"></li>
-              <li><img src="assets/img/image7.jpg"></li>
-              <li><img src="assets/img/image8.jpg"></li>
-            </ul>
-            <div class="thumbelina-but horiz right">&#707;</div>
-          </div>
-        </div>
+          while ($line = pg_fetch_array($result)) {
+            $cur_idx = $line['id'] + 1;
+          ?>
+            <form action="project_view.php" method="post">
+              <button type="submit" style="border: none; background-color: #F6F6F6;">
+                <div class="d-flex flex-row" style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 0; font-family: 'Helvetica', arial; font-size: 36px; font-weight: lighter;">
+                  <div class="d-flex flex-column">
+                    <h1 class="d-inline-flex" style="text-align: left;">
+                      <?php
+                      $idx_length = strlen((string)$cur_idx);
+                      if ($idx_length > 1) {
+                        print_r($cur_idx--);
+                      } else {
+                        print_r('0' . (string)$cur_idx--);
+                      } ?>
+                  </div>
+                  </h1>
+                  <div style="border-color: #202020; border-left: 2px solid; margin-left: 2rem;">
+                    <div class="d-flex flex-column" style="margin-left: 3%;">
+                      <div class="d-inline-flex align-items-center" style="padding-left: 3rem; color: #EA5657; margin-bottom: 1rem;">
+                        <div class="d-inline-flex" style="color: #EA5657; font-family: 'Lack', arial; font-size: 48px; font-weight: lighter; text-align: left;">
+                          <?= $line['name'] ?></div>
+                      </div>
+                      <div class="d-inline-flex" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                        <?= $line['appointment'] ?>
+                      </div>
+                      <div class="d-inline-flex justify-content-between" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                        <div class="d-inline-flex p-2">
 
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">//</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">Отзыввы</div>
-          </div>
-        </div>
+                          <div class="d-inline-flex p-2">
+                            <div class="d-inline-flex p-2" style="align-items: center;">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" color="#EA5657" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                              </svg>
+                            </div>
+                            <div class="d-inline-flex p-2">
+                              12
+                            </div>
+                          </div>
+                          <div class="d-inline-flex p-2" style="align-items: center;">
+                            <div class=" d-inline-flex p-2">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-right-text" viewBox="0 0 16 16">
+                                <path d="M2 1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h9.586a2 2 0 0 1 1.414.586l2 2V2a1 1 0 0 0-1-1zm12-1a2 2 0 0 1 2 2v12.793a.5.5 0 0 1-.854.353l-2.853-2.853a1 1 0 0 0-.707-.293H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2z" />
+                                <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6m0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                              </svg>
+                            </div>
+                            <div class="d-inline-flex p-2">
+                              1234
+                            </div>
+                          </div>
+                        </div>
+                        <div class="d-inline-flex p-2" style="align-items: center; color: #202020; font-family: 'Vasek', arial; font-size: 36px;">
+                          <?= $line['tags'] ?>
+                        </div>
+                      </div>
+                      <!-- <div class="d-inline-flex" style="padding-left: 3rem; min-width: 50%;">
+                        <img src="<?= $line['preview'] ?>" class="img-fluid" alt="...">
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
 
-        <div class="d-flex flex-row"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 0; font-family: 'Helvetica', arial; font-size: 36px; font-weight: lighter;">
-          <div class="d-flex flex-column">
-            <div class="d-inline-flex"><img src="assets/img/image8.jpg"></div>
-            <div class="d-inline-flex" style="text-align: left;">Кружков Олег</div>
-          </div>
-          <div style="border-color: #202020; border-left: 2px solid; margin-left: 2rem;">
-            <div class="d-flex flex-column">
-              <div class="d-inline-flex align-items-center" style="padding-left: 3rem; color: #EA5657;"><svg
-                  xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
-                  class="bi bi-hand-thumbs-up-fill" viewBox="0 0 16 16">
-                  <path
-                    d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a10 10 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733q.086.18.138.363c.077.27.113.567.113.856s-.036.586-.113.856c-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.2 3.2 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.8 4.8 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z" />
-                </svg>
-                <div class="d-inline-flex"
-                  style="padding-left: 2rem; color: #EA5657; font-family: 'Lack', arial; font-size: 36px; font-weight: lighter; text-align: left;">
-                  Рекомендую</div>
-              </div>
-              <div class="d-inline-flex"
-                style="padding-left: 2rem; color: #202020; font-family: 'Helvetica', arial; font-size: 16px; font-weight: lighter; text-align: left;">
-                Интеллектуальный поиск — это
-                инновационная система, позволяющая быстро и удобно находить документы из коллекции кафедры. С помощью
-                продвинутых алгоритмов обработки естественного языка, система анализирует запросы пользователей и
-                предоставляет наиболее релевантные результаты. Интуитивно понятный интерфейс и фильтры по категориям
-                делают поиск простым и эффективным, а возможность сохранения и организации найденных материалов помогает
-                в
-                работе над проектами и исследованиями. Откройте для себя новые знания с "Интеллектуальным поиском"!
-              </div>
-            </div>
-          </div>
+                <input hidden name="id" id="id" type="number" value="<?= $cur_idx ?>">
+              </button>
+            </form>
+          <?php
+          }
+          ?>
         </div>
 
       </div>

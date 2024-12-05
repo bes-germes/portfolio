@@ -67,8 +67,13 @@
                 <nav id="navmenu" class="navmenu">
                     <ul>
                         <li><a href="progect_all.php">Проекты<br></a></li>
-                        <li><a href="#about">Команды</a></li>
+                        <li><a href="find_team.php">Команды</a></li>
                         <li><a href="vocancy.php">Вакансии</a></li>
+                        <li><a href="profile.php">
+                                <div class="text-center">
+                                    <img src="assets\img\MAGNWwAFX6E.jpg" class="rounded" alt="..." style="width: 50px; height: 50px;">
+                                </div>
+                            </a></li>
                         </li>
                     </ul>
                     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -110,125 +115,57 @@
 
             <div class="container section-title" data-aos="fade-up">
                 <div class="row">
-                    <div class="col-6" style="margin: 0; padding: 0;">
-                        <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-end mb-3">
-                                    <div class="bd-highlight"
-                                        style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                                        Программист C++</div>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
+                    <?php
+                    $query = 'SELECT * FROM public.info_vacancys;';
+                    $result = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
+
+                    while ($line = pg_fetch_array($result)) {
+                        $cur_idx = $line['id'] + 1;
+                    ?>
+
+                        <div class="col-6" style="margin: 0; padding: 0;">
+                            <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-end mb-3">
+                                        <div class="bd-highlight"
+                                            style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
+                                            <?= $line['rule'] ?></div>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            style="color:#202020; border-radius: 20px; border-color: #202020;" onclick="alert('Заявка отправлена')">Откликнуться</button>
+                                    </div>
                                 </div>
+
+                                <h6 class="card-subtitle d-flex justify-content-begin"
+                                    style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                                    Автоматизация проведения лабораторных работ по программированию</h6>
+                                <h6 class="card-subtitle d-flex justify-content-begin"
+                                    style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                                    Обязанности:</h6>
+                                <ul
+                                    style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
+                                    <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
+                                    </li>
+                                    <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
+                                        преподавателей.
+                                    </li>
+                                    <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
+                                    <li>Интеграция системы с внешними сервисами.
+                                    </li>
+                                    <li>Написание документации и проведение тестирования разработанных функций.
+
+                                    </li>
+                                    <li>Участие в код-ревью и обмене знаниями с командой.
+
+                                    </li>
+                                    <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
+                                    </li>
+                                </ul>
                             </div>
-
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Автоматизация проведения лабораторных работ по программированию</h6>
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Обязанности:</h6>
-                            <ul
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                                </li>
-                                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                                    преподавателей.
-                                </li>
-                                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                                <li>Интеграция системы с внешними сервисами.
-                                </li>
-                                <li>Написание документации и проведение тестирования разработанных функций.
-
-                                </li>
-                                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                                </li>
-                                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                                </li>
-                            </ul>
                         </div>
-                    </div>
 
-                    <div class="col-6" style="margin: 0; padding: 0;">
-                        <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-end mb-3">
-                                    <div class="bd-highlight"
-                                        style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                                        Программист C++</div>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
-                                </div>
-                            </div>
-
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Автоматизация проведения лабораторных работ по программированию</h6>
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Обязанности:</h6>
-                            <ul
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                                </li>
-                                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                                    преподавателей.
-                                </li>
-                                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                                <li>Интеграция системы с внешними сервисами.
-                                </li>
-                                <li>Написание документации и проведение тестирования разработанных функций.
-
-                                </li>
-                                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                                </li>
-                                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-6" style="margin: 0; padding: 0;">
-                        <div class="card" style="width: 100%; padding: 0; border-radius: 0px; margin: 0;">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-end mb-3">
-                                    <div class="bd-highlight"
-                                        style="text-align: start; font-family: 'Lack', arial; font-size: 36px; color: #EA5657; font-weight: normal;">
-                                        Программист C++</div>
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        style="color:#202020; border-radius: 20px; border-color: #202020;">Откликнуться</button>
-                                </div>
-                            </div>
-
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 20px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Автоматизация проведения лабораторных работ по программированию</h6>
-                            <h6 class="card-subtitle d-flex justify-content-begin"
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 18px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                Обязанности:</h6>
-                            <ul
-                                style="text-align: start; font-family: 'Helvetica', arial; font-size: 16px; color: #202020; margin: 0 0 3rem 1rem; font-weight: 100;">
-                                <li>Участие в разработке архитектуры и функций системы автоматизации лабораторных работ.
-                                </li>
-                                <li>Проектирование и реализация компонентов системы, включая интерфейсы для студентов и
-                                    преподавателей.
-                                </li>
-                                <li>Разработка алгоритмов автоматической проверки кода на различных языках программирования.</li>
-                                <li>Интеграция системы с внешними сервисами.
-                                </li>
-                                <li>Написание документации и проведение тестирования разработанных функций.
-
-                                </li>
-                                <li>Участие в код-ревью и обмене знаниями с командой.
-
-                                </li>
-                                <li>Поддержка и улучшение существующих функций системы на основе отзывов пользователей.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <?php
+                    }
+                    ?>
 
 
                 </div>
