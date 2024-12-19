@@ -157,7 +157,7 @@
     <?php
 
 
-    require_once('config/settings.php');
+    require_once('/xampp/htdocs/portfolio/config/settings.php');
     $db = new dbFunc();
     $db = $db->dbConn();
 
