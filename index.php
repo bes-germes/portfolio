@@ -41,7 +41,7 @@
   ======================================================== -->
 
   <?php
-
+  include 'assets/phpFunc/statusColor.php';
   require_once('/xampp/htdocs/portfolio/config/settings.php');
   $db = new dbFunc();
   $db = $db->dbConn();
@@ -140,6 +140,10 @@
                       <div class="d-inline-flex" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
                        text-align: left; min-width: 100%; width: 75rem;">
                         <?= $line['appointment'] ?>
+                      </div>
+                      <div class="d-inline-flex" style="margin-top: 1rem; padding-left: 3rem; color: <?=colorStatus($line['status'])?>; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                        <?= $line['status'] ?>
                       </div>
                       <div class="d-inline-flex justify-content-between" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
                        text-align: left; min-width: 100%; width: 75rem;">

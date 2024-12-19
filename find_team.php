@@ -170,9 +170,6 @@
                             </div>
                           </div>
                         </div>
-                        <div class="d-inline-flex p-2" style="align-items: center; color: #202020; font-family: 'Vasek', arial; font-size: 36px;">
-                          <?= $line['tags'] ?>
-                        </div>
                       </div>
                       <!-- <div class="d-inline-flex" style="padding-left: 3rem; min-width: 50%;">
                         <img src="<?= $line['preview'] ?>" class="img-fluid" alt="...">

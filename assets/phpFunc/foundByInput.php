@@ -1,36 +1,16 @@
 <?php
+
 include '/xampp/htdocs/portfolio/assets/phpFunc/statusColor.php';
 require_once('/xampp/htdocs/portfolio/config/settings.php');
 $db = new dbFunc();
 $db = $db->dbConn();
 
 
-if (!isset($_POST['tags_array'])) {
-    echo ('Массив пустой');
-    exit;
-}
+$query_search = "SELECT * FROM public.info_project WHERE name ilike '%" . $_POST['charValue'] . "%';";
 
-if ($_POST['tags_array'] == null || empty($_POST['tags_array'])) {
-    echo ('Массив пустой');
-    exit;
-}
-//echo str_replace("added_tag", "", $_POST['tags_array'][0]);
-$tags = '';
+$result_search = pg_query($db, $query_search) or die('Ошибка запроса: ' . pg_last_error($db));
 
-foreach ($_POST['tags_array'] as &$value) {
-    $tags .= str_replace("added_tag", "", $value) . ", ";
-}
-
-
-
-$query_ALL_TAGS = "SELECT * FROM public.info_project WHERE stack @> ARRAY[" . substr($tags, 0, -2) . "]";
-
-$result_ALL_TAGS = pg_query($db, $query_ALL_TAGS) or die('Ошибка запроса: ' . pg_last_error($db));
-
-
-
-
-while ($line = pg_fetch_array($result_ALL_TAGS)) {
+while ($line = pg_fetch_array($result_search)) {
     $cur_idx = $line['id'];
 ?>
     <form action="project_view.php" method="post">

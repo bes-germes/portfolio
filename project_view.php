@@ -156,7 +156,7 @@
 
     <?php
 
-
+    include 'assets/phpFunc/statusColor.php';
     require_once('/xampp/htdocs/portfolio/config/settings.php');
     $db = new dbFunc();
     $db = $db->dbConn();
@@ -196,7 +196,7 @@
     <section id="about" class="about section" style="background-color: #F6F6F6;">
 
       <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up" style="margin-top: 2rem;">
+      <div class="container section-title" data-aos="fade-up" style="margin-top: 6rem;">
         <p style="font-family: 'Vasek', arial; font-size: 96px; color: #EA5657; margin: 0; line-height: .8em;">
           <?= $result['name'] ?></p>
 
@@ -229,7 +229,7 @@
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">Статус:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['status'] ?></div>
+            <div class="d-inline-flex" style="padding-left: 1rem; color:<?= colorStatus($result['status']) ?>;"><?= $result['status'] ?></div>
           </div>
           <div class="d-inline-flex">
             <div class="d-inline-flex"><?= $link[1] ?></div>
