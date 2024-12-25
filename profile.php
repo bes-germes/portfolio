@@ -282,7 +282,7 @@
           style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">Навыки:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= implode(', ', $skilss_array) ?></div>
+            <div class="d-inline-flex" style="padding-left: 1rem; text-align: left;"><?= implode(', ', $skilss_array) ?></div>
           </div>
         </div>
 
