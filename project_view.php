@@ -162,6 +162,32 @@
     $db = $db->dbConn();
 
 
+    $query_roles = 'SELECT roles FROM public.info_project WHERE id = ' . $_POST['id'] . ';';
+    $result_roles = pg_query($db, $query_roles) or die('Ошибка запроса: ' . pg_last_error($db));
+    $resul_roles = pg_fetch_array($result_roles);
+    $role_array_idx = str_replace("}", "", str_replace("{", "", $resul_roles['roles']));
+
+    $query_roles_names = 'SELECT role	FROM public.info_roles WHERE id =  ANY(ARRAY[' . $role_array_idx . ']);';
+    $result_roles_names = pg_query($db, $query_roles_names) or die('Ошибка запроса: ' . pg_last_error($db));
+
+
+    $query_participants = 'SELECT participants FROM public.info_project WHERE id = ' . $_POST['id'] . ';';
+    $result_participants = pg_query($db, $query_participants) or die('Ошибка запроса: ' . pg_last_error($db));
+    $resul_participants = pg_fetch_array($result_participants);
+
+    $phpArray = json_decode(str_replace(['{', '}'], ['[', ']'], $resul_participants['participants']));
+
+    $testarray = array();
+
+    $role_array_idx_array = explode(",", $role_array_idx);
+    print_r($role_array_idx_array);
+    print_r("aaaaaaaaaa");
+
+    for ($i = 0; $i < count($role_array_idx_array); ++$i) {
+      $testarray[$role_array_idx_array[$i]] = $phpArray[$i];
+    }
+
+    print_r($testarray);
 
     $query = 'SELECT * FROM public.info_project WHERE id = ' . $_POST['id'] . ';';
 
@@ -182,14 +208,10 @@
 
 
 
-    $query_link = "SELECT url FROM public.info_artefacts WHERE project_id = '" . $_POST['id'] . "';";
+    $query_link = "SELECT url FROM public.info_artefacts WHERE id = '" . $_POST['id'] . "';";
     $result_link = pg_query($db, $query_link) or die('Ошибка запроса: ' . pg_last_error($db));
 
     $link = array();
-    while ($row = pg_fetch_array($result_link)) {
-
-      array_push($link, $row['url']);
-    }
 
     ?>
     <!-- About Section -->
@@ -202,76 +224,84 @@
 
       </div>
       <div class="container section-title" data-aos="fade-up" style="margin-top: 2rem;">
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">//</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">Основная информация</div>
+        <div class="row">
+          <div class="col-8">
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">//</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;">Основная информация</div>
+              </div>
+
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Дата выхода:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['start'] ?></div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Статус:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem; color:<?= colorStatus($result['status']) ?>;"><?= $result['status'] ?></div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Стек:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;">
+                  <?= $stack ?></div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Оценка сообщества:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Оценка знатаков:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between"
+              style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+              <div class="d-inline-flex">
+                <div class="d-inline-flex">Популярные теги проекта:</div>
+                <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['tags'] ?></div>
+              </div>
+            </div>
           </div>
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Ссылки</div>
-            <div class="d-inline-flex" style="padding-left: 1rem; padding-right: 3rem;">//</div>
+          <div class="col-auto">
+            <div class="d-flex flex-row justify-content-between" style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
+              <div class="d-inline-flex">
+                <div class="d-flex flex-column" style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 20px; font-weight: 100;">
+                  <div class="d-inline-flex" style="background-color: #F6F6F6; color: #202020; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">Ссылки //</div>
+                  <?php
+                  while ($row = pg_fetch_array($result_link)) {
+                  ?>
+                    <a class="d-inline-flex"><?= $row['url'] ?></a>
+
+                  <?php
+                  }
+                  ?>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Дата выхода:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['start'] ?></div>
-          </div>
-          <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[0] ?></div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Статус:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem; color:<?= colorStatus($result['status']) ?>;"><?= $result['status'] ?></div>
-          </div>
-          <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[1] ?></div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Стек:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">
-              <?= $stack ?></div>
-          </div>
-          <div class="d-inline-flex">
-            <div class="d-inline-flex"><?= $link[2] ?></div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Оценка сообщества:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Оценка знатаков:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;">74%</div>
-          </div>
-        </div>
-
-        <div class="d-flex flex-row justify-content-between"
-          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
-          <div class="d-inline-flex">
-            <div class="d-inline-flex">Популярные теги проекта:</div>
-            <div class="d-inline-flex" style="padding-left: 1rem;"><?= $result['tags'] ?></div>
-          </div>
-        </div>
-
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
           <div class="d-inline-flex">
@@ -279,6 +309,7 @@
             <div class="d-inline-flex" style="padding-left: 1rem;">О проекте</div>
           </div>
         </div>
+
         <div class="d-flex flex-row justify-content-between"
           style="text-align: left; background-color: #F6F6F6; color: #202020; padding: 0 0 3rem 0; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
@@ -294,24 +325,47 @@
             <div class="d-inline-flex" style="padding-left: 1rem;">Авторы</div>
           </div>
         </div>
+        <?php
+        while ($line_roles_name = pg_fetch_array($result_roles_names)) {
+          foreach ($testarray as $v1) {
+            foreach ($v1 as $v2) {
+              $query_names = 'SELECT * FROM public.info_user WHERE id =' . $v2 . ';';
+              $result_names = pg_query($db, $query_names) or die('Ошибка запроса: ' . pg_last_error($db));
+              $resul_names = pg_fetch_array($result_names);
 
-        <div class="d-flex"
-          style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal; width: 50%;">
-          <div id="slider2">
-            <div class="thumbelina-but horiz left">&#706;</div>
-            <ul>
-              <li><img src="assets/img/image.png"></li>
-              <li><img src="assets/img/image2.jpg"></li>
-              <li><img src="assets/img/image3.jpg"></li>
-              <li><img src="assets/img/image4.jpg"></li>
-              <li><img src="assets/img/image5.jpg"></li>
-              <li><img src="assets/img/image6.jpg"></li>
-              <li><img src="assets/img/image7.jpg"></li>
-              <li><img src="assets/img/image8.jpg"></li>
-            </ul>
-            <div class="thumbelina-but horiz right">&#707;</div>
-          </div>
-        </div>
+              // $query_roles_user = 'SELECT * FROM public.info_user WHERE id in ('. .');';
+              // $result_roles_user = pg_query($db, $query_roles_user) or die('Ошибка запроса: ' . pg_last_error($db));
+        ?>
+              <div class="d-flex flex-row" style="background-color: #F6F6F6; color: #202020; padding: 3rem 3% 3rem 0; font-family: 'Helvetica', arial; font-size: 36px; font-weight: lighter;">
+
+                <div class="d-flex justify-content-start" style="border-color: #202020;">
+                  <div class="d-inline-flex" style="margin-left: 3%;">
+                    <img src="assets\img\team\photo-1620067925093-801122ac1408.avif" alt="..." style="width: 150px; height: 200px; border-radius: 50%;">
+                  </div>
+                  <div class="d-flex flex-column">
+                    <div class="d-inline-flex align-items-center" style="padding-left: 3rem; color: #EA5657; margin-bottom: 1rem;">
+                      <div class="d-inline-flex" style="color: #EA5657; font-family: 'Lack', arial; font-size: 48px; font-weight: lighter; text-align: left;">
+                        <?=$resul_names['firstname']?> <?=$resul_names['lastname']?></div>
+                    </div>
+                    <div class="d-inline-flex" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                      Роль: <?= $line_roles_name['role'] ?>
+                    </div>
+                    <div class="d-inline-flex justify-content-between" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
+                       text-align: left; min-width: 100%; width: 75rem;">
+                      <div class="d-inline-flex">
+                        <button type="button" class="btn btn-outline-secondary" style="margin-top: 1rem;">Связаться</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        <?php
+            }
+          }
+        }
+        ?>
+
 
         <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">

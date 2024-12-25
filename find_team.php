@@ -142,7 +142,7 @@
                       </div>
                       <div class="d-inline-flex" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
                        text-align: left; min-width: 100%; width: 75rem;">
-                        Тут должно быть описание но в бд нет этой инфы ¯\_(ツ)_/¯
+                        <?= $line['about_myself'] ?>
                       </div>
                       <div class="d-inline-flex justify-content-between" style="padding-left: 3rem; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: lighter;
                        text-align: left; min-width: 100%; width: 75rem;">

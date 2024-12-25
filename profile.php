@@ -169,9 +169,18 @@
     }
 
     $query = 'SELECT * FROM public.info_user WHERE id = ' . $user_id . ';';
-
     $result_query = pg_query($db, $query) or die('Ошибка запроса: ' . pg_last_error($db));
     $result = pg_fetch_array($result_query);
+
+    $query_tags = 'SELECT name FROM public.info_tags WHERE id in ' . str_replace(['{', '}'], ['(', ')'], $result['skills']) . ';';
+    $result__tags = pg_query($db, $query_tags) or die('Ошибка запроса: ' . pg_last_error($db));
+
+    $skilss_array = array();
+
+    while ($skill = pg_fetch_array($result__tags)) {
+      array_push($skilss_array, $skill['name']);
+    }
+
 
     ?>
     <!-- About Section -->
@@ -270,6 +279,14 @@
         </div>
 
         <div class="d-flex flex-row justify-content-between"
+          style="background-color: #F6F6F6; color: #202020; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
+          <div class="d-inline-flex">
+            <div class="d-inline-flex">Навыки:</div>
+            <div class="d-inline-flex" style="padding-left: 1rem;"><?= implode(', ', $skilss_array) ?></div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-between"
           style="background-color: #F6F6F6; color: #202020; padding: 3rem 0 1rem 0; font-family: 'Lack', arial; font-size: 32px; font-weight: normal;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">//</div>
@@ -280,11 +297,7 @@
           style="text-align: left; background-color: #F6F6F6; color: #202020; padding: 0 0 3rem 0; font-family: 'Helvetica', arial; font-size: 24px; font-weight: 100;">
           <div class="d-inline-flex">
             <div class="d-inline-flex">
-              Я люблю работать над проектами, которые позволяют мне применять теорию на практике. В своей учебе я сосредоточен на разработке веб-приложений и изучении алгоритмов. Участвовал в нескольких хакатонах, где смог не только улучшить свои технические навыки, но и научиться работать в команде.
-
-              Кроме программирования, меня интересуют новые технологии, такие как искусственный интеллект и машинное обучение. Я всегда открыт для новых идей и возможностей сотрудничества, поэтому не стесняйтесь обращаться ко мне!
-
-              В свободное время я люблю читать книги по саморазвитию и смотреть научно-популярные фильмы. Я верю, что постоянное обучение и обмен опытом — ключ к успеху в этой быстро меняющейся области.
+              <?= $result['about_myself'] ?>
             </div>
           </div>
         </div>
